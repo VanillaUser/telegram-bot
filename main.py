@@ -16,6 +16,7 @@ asientos = 0
 precio = 0
 iatac = ""
 tickets = False
+buy_off = True
 
 def start(update, context):
     update.message.reply_text("""Los siguientes comandos te ayudaran con lo que necesites:
@@ -23,6 +24,7 @@ def start(update, context):
     /buscar Permite buscar vuelos de aeropuertos, vuelos por ciudades, vuelos por paises
     /comprar_t Comprar un ticket de ida.
     /comprar_rt Comprar un ticket de ida y regreso
+    Siempre puedes usar el comando /start para recordar los diferentes comandos
     Escribelo directamente en el chat y encuentra resultados.
     """)
 
@@ -56,11 +58,11 @@ def do_everything(update, context):
     global precio
     global iatac
     global tickets
-    message = update.message.text.lower().split("/")
-    msg = message[-1]
+    global buy_off
+    msg = update.message.text.lower()
     for iata in data.database:
 
-        if (len(message) == 1):
+        if (buy_off):
             for vuelo in iata["vuelos"]:
 
                 if (msg == vuelo["ciudad"].lower()):
@@ -81,9 +83,11 @@ def do_everything(update, context):
             if (msg.isdigit() and ciudad and iatac.lower() == iata["iata"].lower()):
                 asientos = int(msg)
                 if (tickets == False):
-                    update.message.reply_text(f"Vuelo de ida\n" + "{aeropuertoNombre}\nCiudad: {ciudad}\nAsientos: {asientos}\nPrecio total: {precio * asientos}")
+                    update.message.reply_text("Vuelo de ida\n" + f"{aeropuertoNombre}\nCiudad: {ciudad}\nAsientos: {asientos}\nPrecio total: {precio * asientos}")
+                    buy_off = True
                 else:
-                    update.message.reply_text(f"Vuelo de ida y regreso\n" + "{aeropuertoNombre}\nCiudad: {ciudad}\nAsientos: {asientos}\nPrecio total: {precio * asientos * 2}")
+                    update.message.reply_text("Vuelo de ida y regreso\n" + f"{aeropuertoNombre}\nCiudad: {ciudad}\nAsientos: {asientos}\nPrecio total: {precio * asientos * 2}")
+                    buy_off = True
                     tickets = False    
                 aeropuertoNombre = ""
                 ciudad = ""
@@ -94,25 +98,29 @@ def do_everything(update, context):
             elif (msg.find(iata["iata"].lower()) == 0):
                 aeropuertoNombre = iata["nombre"]
                 iatac = iata["iata"]
-                update.message.reply_text("Escoge la ciudad\n Escribe \"/ + nombre de la ciudad\"")
+                update.message.reply_text("Escribe el nombre de la ciudad")
                 imp(update, iata)
             elif (aeropuertoNombre):
                 for vuelo in iata["vuelos"]:
                     if (msg.lower().find(vuelo["ciudad"].lower()) == 0):
                         ciudad = vuelo["ciudad"]
                         precio = vuelo["precio"]
-                        update.message.reply_text("¿Cuantos asientos quieres?: \nEscribe \"/ + el numero de asientos\n")
+                        update.message.reply_text("¿Cuantos asientos quieres?: \nEscribe el numero de asientos\n")
 
 def buy_ticket(update, context):
+    global buy_off
+    buy_off = False
     b_t(update, context)
 
 def buyRt_ticket(update, context):
     global tickets
+    global buy_off
     tickets = True
+    buy_off = False
     b_t(update, context)
 
 def b_t(update, context):
-    update.message.reply_text("Escoge el Aeropuerto de origen\n Escribe \"/ + codigo iata\" ")
+    update.message.reply_text("Escoge el Aeropuerto de origen\n Escribe el codigo iata")
     arr = []
     for iata in data.database:
         codigo = iata["iata"]
