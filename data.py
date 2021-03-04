@@ -35,8 +35,8 @@ database = [
             "precio" : 500.00,
          },
          {
-            "ciudad" : "Chicago",
-            "pais": "Estados Unidos",
+            "ciudad" : "Quito",
+            "pais": "Ecuador",
             "asientos" : 40,
             "precio" : 500.00,
          },
