@@ -2,7 +2,7 @@
 database = [
    {
       "iata" : "LIS",
-      "nombre" : "	Aeropuerto de Portela",
+      "nombre" : "Aeropuerto de Portela",
       "vuelos" : [
          {
             "ciudad" : "Miami",
