@@ -8,7 +8,6 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
 
 logger = logging.getLogger(__name__)
 
-aeropuerto = data.database[0]
 
 aeropuertoNombre = ""
 ciudad = ""
@@ -27,9 +26,6 @@ def start(update, context):
     Siempre puedes usar el comando /start para recordar los diferentes comandos
     Escribelo directamente en el chat y encuentra resultados.
     """)
-
-def help(update, context):
-    update.message.reply_text('Help!')
 
 def listar(update, context):
     for iata in data.database:
@@ -50,7 +46,6 @@ def search(update, context):
     Escribelo directamente en el chat y encuentra resultados.
     """)
 
-
 def do_everything(update, context):
     global aeropuertoNombre
     global ciudad
@@ -68,16 +63,16 @@ def do_everything(update, context):
                 if (msg == vuelo["ciudad"].lower()):
                     c = vuelo["ciudad"]
                     p = vuelo["precio"]
-                    update.message.reply_text(f"El vuelo hacea {c} cuesta {p}")
+                    update.message.reply_text(f"El vuelo hacia {c} cuesta {p}")
 
                 elif (msg == vuelo["pais"].lower()):
                     imp_pais(update, iata)
 
             if (msg == iata["iata"].lower()):
-                imp(update, iata)
+                imp(update,iata)
 
             elif (msg == iata["nombre"].lower()):
-                imp(update, iata)
+                imp(update,iata)
 
         else :
             if (msg.isdigit() and ciudad and iatac.lower() == iata["iata"].lower()):
@@ -89,12 +84,6 @@ def do_everything(update, context):
                     update.message.reply_text("Vuelo de ida y regreso\n" + f"{aeropuertoNombre}\nCiudad: {ciudad}\nAsientos: {asientos}\nPrecio total: {precio * asientos * 2}")
                     buy_off = True
                     tickets = False    
-                aeropuertoNombre = ""
-                ciudad = ""
-                asientos = 0
-                precio = 0
-                iatac = ""
-                tickets = 0
             elif (msg.find(iata["iata"].lower()) == 0):
                 aeropuertoNombre = iata["nombre"]
                 iatac = iata["iata"]
@@ -128,14 +117,17 @@ def b_t(update, context):
         arr.append(f"· {codigo}\n")
         count = count + 1
     update.message.reply_text("".join(map(str, arr)))
+    
 
-def imp(update, iata):
+def imp(update,iata):
     arr = []
     for vuelo in iata["vuelos"]:
         ciudad = vuelo["ciudad"]
-        precio = vuelo["precio"]
-        arr.append(f"{ciudad}          {precio}\n")
-    update.message.reply_text("Ciudad          Precio\n" + "".join(map(str, arr)))
+        precio = str(vuelo["precio"])
+        space = (45 - len(ciudad))
+        arr.append(f"{ciudad.ljust(space, '.')}{precio.rjust(10)}\n")
+    update.message.reply_text(f"Ciudad  Precio\n" + "".join(map(str, arr)))
+    print(f"Ciudad  Precio\n" + "".join(map(str, arr)))
 
 def imp_pais(update, iata):
     arr = []
