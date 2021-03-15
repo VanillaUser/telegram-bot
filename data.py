@@ -83,5 +83,47 @@ database = [
             "precio" : 500.00,
          },
       ]     
-   }
+   },
+   {
+      "iata" : "GYE",
+      "nombre" : "Aeropuerto Internacional Benito Juárez de la Ciudad de México",
+      "vuelos" : [
+         {
+            "ciudad" : "Madrid",
+            "pais": "España",
+            "asientos" : 40,
+            "precio" : 500.00,
+         },
+         {
+            "ciudad" : "Frankfurt",
+            "pais": "Alemania",
+            "asientos" : 40,
+            "precio" : 500.00,
+         },
+         {
+            "ciudad" : "Porto",
+            "pais": "Portugal",
+            "asientos" : 40,
+            "precio" : 500.00,
+         },
+         {
+            "ciudad" : "Osaka",
+            "pais": "Japon",
+            "asientos" : 40,
+            "precio" : 500.00,
+         },
+         {
+            "ciudad" : "Seul",
+            "pais": "Corea del Sur",
+            "asientos" : 40,
+            "precio" : 500.00,
+         },
+         {
+            "ciudad" : "Medellin",
+            "pais": "Colombia",
+            "asientos" : 40,
+            "precio" : 500.00,
+         },
+      ]     
+   },
 ]
