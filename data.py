@@ -1,8 +1,8 @@
 
 database = [
    {
-      "iata" : "GYE",
-      "nombre" : "Aeropuerto Internacional Jose Joaquin de Olmedo",
+      "iata" : "LIS",
+      "nombre" : "	Aeropuerto de Portela",
       "vuelos" : [
          {
             "ciudad" : "Miami",
@@ -125,5 +125,5 @@ database = [
             "precio" : 500.00,
          },
       ]     
-   },
+   }
 ]
